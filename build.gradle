@@ -3,11 +3,17 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
 	id 'war'
+	id 'org.hidetake.ssh' version '2.10.1'
 }
 
 group = 'gg.boardgame'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
+
+bootWar {
+	archiveBaseName="bdgg"
+	archiveVersion=version
+}
 
 configurations {
 	compileOnly {
@@ -26,6 +32,34 @@ dependencies {
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+}
+
+remotes {
+	webServer {
+		host = project.properties["publicHost"]
+		user = project.properties["publicUser"]
+		identity = file("keys/bdgg.pem")
+		knownHosts = allowAnyHosts
+	}
+}
+
+task deployWar(dependsOn: bootWar){
+	def tomcatHome = project.properties["publicDir"]
+	def warName = "ROOT"
+	doLast {
+		ssh.run {
+			session(remotes.webServer) {
+				println "Uploading new war"
+				put from: war.archivePath.absolutePath, into: "${tomcatHome}/${warName}.war.new"
+
+				println "removing old war"
+				execute("rm ${tomcatHome}/${warName}.war")
+
+				println "activating new war"
+				execute("mv ${tomcatHome}/${warName}.war{.new,}")
+			}
+		}
 	}
 }
 

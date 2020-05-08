@@ -1,4 +1,4 @@
-package gg.boardgame.bdgg.account;
+package gg.boardgame.bdgg.example.db;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

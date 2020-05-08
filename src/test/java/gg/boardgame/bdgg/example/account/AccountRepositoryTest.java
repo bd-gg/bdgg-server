@@ -1,5 +1,7 @@
-package gg.boardgame.bdgg.account;
+package gg.boardgame.bdgg.example.account;
 
+import gg.boardgame.bdgg.example.db.Account;
+import gg.boardgame.bdgg.example.db.AccountRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +10,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 import java.util.Optional;
 

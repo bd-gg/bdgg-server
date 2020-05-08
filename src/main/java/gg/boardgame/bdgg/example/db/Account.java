@@ -1,4 +1,4 @@
-package gg.boardgame.bdgg.account;
+package gg.boardgame.bdgg.example.db;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

@@ -1,0 +1,224 @@
+openapi: 3.0.0
+info:
+  description: "This is an API document of BD.GG"
+  version: "1.0.0"
+  title: "Swagger BD.GG"
+  contact:
+    email: "huhu420@naver.com(opens in new tab)"
+  license:
+    name: "MIT"
+    url: "https://opensource.org/licenses/MIT"
+servers:
+- url: "bdgg.swagger.io"
+tags:
+- name: "matches"
+  description: "Service for boardgame matches"
+paths:
+  /matches:
+    post:
+      summary: Create a match
+      operationId: createMatches
+      tags:
+        - matches
+      requestBody:
+        description: contents of the match
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Match'
+      responses:
+        '200':
+          description: Succeed to create the match
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+    put:
+      summary: Update a match
+      operationId: updateMatches
+      tags:
+        - matches
+      requestBody:
+        description: contents of the match
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Match'
+      responses:
+        '200':
+          description: Succeed to create the match. Return inserted match
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Match'
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+  /matches/{matchId}:
+    get:
+      summary: Get a match
+      operationId: getMatch
+      tags:
+        - matches
+      parameters:
+        - name: matchId
+          in: path
+          required: true
+          description: The id of the match to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Information of target match
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Match'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not found
+        '500':
+          description: Internal Server Error
+    delete:
+      summary: Delete a match
+      operationId: deleteMatch
+      tags:
+        - matches
+      parameters:
+        - name: matchId
+          in: path
+          required: true
+          description: The id of the match to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Succeed to delete the match
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+  /groups/{groupId}/matches:
+    get:
+      summary: List all matches played in the group
+      operationId: listGroupMatches
+      tags:
+        - matches
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          description: Group ID
+          schema:
+            type: integer
+        - name: member
+          in: query
+          required: false
+          description: filter by member id
+          schema:
+            type: integer
+        - name: game
+          in: query
+          required: false
+          description: filter by game id
+          schema:
+            type: integer
+        - name: type
+          in: query
+          required: false
+          description: filter by game type
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: list of matches
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Match'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not found
+        '500':
+          description: Internal Server Error
+  /profile/{userId}/matches:
+    get:
+      summary: List all matches of the player
+      operationId: listPlayerMatch
+      tags:
+        - matches
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: Player ID
+          schema:
+            type: integer
+        - name: member
+          in: query
+          required: false
+          description: filter by member id
+          schema:
+            type: integer
+        - name: game
+          in: query
+          required: false
+          description: filter by game id
+          schema:
+            type: integer
+        - name: type
+          in: query
+          required: false
+          description: filter by game type
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: list of matches
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Match'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not found
+        '500':
+          description: Internal Server Error
+components:
+  schemas:
+    Match:
+      required:
+        - gameNo
+        - gameType
+        - createdTime
+        - winner
+      properties:
+        gameNo:
+          type: integer
+        gameType:
+          type: integer
+        createdTime:
+          type: string
+          format: date-time
+        winner:
+          type: integer
+    Error:
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string

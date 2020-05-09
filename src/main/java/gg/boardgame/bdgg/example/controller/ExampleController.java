@@ -3,6 +3,8 @@ package gg.boardgame.bdgg.example.controller;
 import gg.boardgame.bdgg.example.dto.ExampleDTO;
 import gg.boardgame.bdgg.example.service.ExampleService;
 import org.hibernate.criterion.Example;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,7 @@ public class ExampleController {
 
     @Autowired
     private ExampleService exampleService;
+    private Logger logger = LoggerFactory.getLogger(ExampleController.class);
 
     /*
     * curl -XGET -H "Accept: application/json"
@@ -25,7 +28,7 @@ public class ExampleController {
             @PathVariable("pathParam") String pathParam,
             @RequestParam("queryParam") String queryParam) {
 
-        System.out.println(String.format("urlParam: %s, queryParam: %s", pathParam, queryParam));
+        logger.info(String.format("urlParam: %s, queryParam: %s", pathParam, queryParam));
 
         return exampleService.getExampleData();
     }
@@ -40,7 +43,7 @@ public class ExampleController {
     @RequestMapping(method = RequestMethod.POST)
     public @ResponseBody ExampleDTO addExampleData(@RequestBody ExampleDTO ex) {
         exampleService.addExampleData(ex);
-        System.out.println(String.format("name: %s, age: %d", ex.getName(), ex.getAge()));
+        logger.info(String.format("name: %s, age: %d", ex.getName(), ex.getAge()));
         return ex;
     }
 }

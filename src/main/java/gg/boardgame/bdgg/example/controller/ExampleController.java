@@ -26,11 +26,11 @@ public class ExampleController {
     @RequestMapping(value = "/{pathParam}", method = RequestMethod.GET)
     public @ResponseBody ExampleDTO getExampleData(
             @PathVariable("pathParam") String pathParam,
-            @RequestParam("queryParam") String queryParam) {
+            @RequestParam(value = "queryParam", required = false) String queryParam) {
 
         logger.info(String.format("urlParam: %s, queryParam: %s", pathParam, queryParam));
 
-        return exampleService.getExampleData();
+        return exampleService.getExampleData(pathParam);
     }
 
     /*

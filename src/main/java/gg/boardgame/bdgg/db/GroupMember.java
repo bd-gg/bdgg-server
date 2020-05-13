@@ -1,8 +1,15 @@
 package gg.boardgame.bdgg.db;
 
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
+@Table(name = "GROUP_MEMBER")
+@Data
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class GroupMember {
     @Id
     @GeneratedValue

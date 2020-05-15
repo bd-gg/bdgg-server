@@ -1,14 +1,13 @@
 package gg.boardgame.bdgg.db;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "USER_GAME_HISTORY")
-@Data
+@Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserGameHistory {
     @Id
@@ -25,34 +24,12 @@ public class UserGameHistory {
     @Column(name = "count")
     private int count;
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
+    @Builder
+    public UserGameHistory(long id, int count) {
+        Assert.notNull(id, "id must be not null");
+        Assert.notNull(count, "count must be not null");
         this.id = id;
-    }
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public int getGameId() {
-        return gameId;
-    }
-
-    public void setGameId(int gameId) {
-        this.gameId = gameId;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
         this.count = count;
     }
+
 }

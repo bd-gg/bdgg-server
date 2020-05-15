@@ -1,8 +1,6 @@
 package gg.boardgame.bdgg.db;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -11,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "MATCHES")
-@Data
+@Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Match {
     @Id @GeneratedValue
@@ -29,5 +27,4 @@ public class Match {
 
     @OneToMany(mappedBy = "match")
     private List<UserMatch> userMatches = new ArrayList<>();
-
 }

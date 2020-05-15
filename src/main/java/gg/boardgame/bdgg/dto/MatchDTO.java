@@ -8,11 +8,11 @@ import java.util.List;
 
 @Data
 public class MatchDTO {
-    private int id;
-    private int groupId;
+    private long id;
+    private long groupId;
     private Date playedTime;
     private String place;
-    private int gameId;
+    private int gameNo;
     private int gameType;
     private int result;
     private List<IndividualGameResultDTO> playWith = new ArrayList<>();

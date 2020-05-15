@@ -1,8 +1,6 @@
 package gg.boardgame.bdgg.db;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -11,6 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "MATCHES")
+@Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Match {
     @Id @GeneratedValue
@@ -28,44 +27,4 @@ public class Match {
 
     @OneToMany(mappedBy = "match")
     private List<UserMatch> userMatches = new ArrayList<>();
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public int getGameNo() {
-        return gameNo;
-    }
-
-    public void setGameNo(int gameNo) {
-        this.gameNo = gameNo;
-    }
-
-    public int getGameType() {
-        return gameType;
-    }
-
-    public void setGameType(int gameType) {
-        this.gameType = gameType;
-    }
-
-    public int getPlayTime() {
-        return playTime;
-    }
-
-    public void setPlayTime(int playTime) {
-        this.playTime = playTime;
-    }
-
-    public Group getGroup() {
-        return group;
-    }
-
-    public void setGroup(Group group) {
-        this.group = group;
-    }
 }

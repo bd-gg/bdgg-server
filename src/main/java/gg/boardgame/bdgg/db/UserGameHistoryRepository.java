@@ -5,6 +5,5 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserGameHistoryRepository extends JpaRepository<UserGameHistory, Long> {
-    public Page<UserGameHistory> findByUser_Id(long userId, Pageable pageable);
-
+     Page<UserGameHistory> findByUser_Id(long userId, Pageable pageable);
 }

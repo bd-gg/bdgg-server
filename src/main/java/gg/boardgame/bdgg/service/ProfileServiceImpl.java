@@ -1,10 +1,10 @@
 package gg.boardgame.bdgg.service;
 
-import gg.boardgame.bdgg.db.Match;
-import gg.boardgame.bdgg.db.UserMatch;
-import gg.boardgame.bdgg.db.UserMatchRepository;
+import gg.boardgame.bdgg.db.*;
+import gg.boardgame.bdgg.dto.GameHistoryDTO;
 import gg.boardgame.bdgg.dto.IndividualGameResultDTO;
 import gg.boardgame.bdgg.dto.MatchDTO;
+import gg.boardgame.bdgg.dto.ProfileDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,11 +12,36 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProfileServiceImpl implements ProfileService{
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private UserGameHistoryRepository userGameHistoryRepository;
+
+    @Autowired
     private UserMatchRepository userMatchRepository;
+
+    @Override
+    public ProfileDTO getProfile(Integer userId, Pageable pageable) {
+
+        Optional<User> user = userRepository.findById(userId);
+        Page<UserGameHistory> userGameHistories = userGameHistoryRepository.findByUser_Id(userId, pageable);
+
+        ProfileDTO profile = new ProfileDTO(user.get());
+
+        userGameHistories.getContent().forEach(u -> {
+            GameHistoryDTO item = new GameHistoryDTO();
+            item.setGameId(u.getGameId());
+            item.setCount(u.getCount());
+            profile.getMostPlayed().add(item);
+        });
+
+        return profile;
+    }
 
     @Override
     public List<MatchDTO> getMatchList(Integer userId, Integer gameId, Integer gameType, Pageable pageable) {

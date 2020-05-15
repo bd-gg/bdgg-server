@@ -5,28 +5,28 @@ import java.util.Date;
 import java.util.List;
 
 public class MatchDTO {
-    private int id;
-    private int groupId;
+    private long id;
+    private long groupId;
     private Date playedTime;
     private String place;
-    private int gameId;
+    private int gameNo;
     private int gameType;
     private int result;
     private List<IndividualGameResultDTO> playWith = new ArrayList<>();
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public int getGroupId() {
+    public long getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(int groupId) {
+    public void setGroupId(long groupId) {
         this.groupId = groupId;
     }
 
@@ -46,12 +46,12 @@ public class MatchDTO {
         this.place = place;
     }
 
-    public int getGameId() {
-        return gameId;
+    public int getGameNo() {
+        return gameNo;
     }
 
-    public void setGameId(int gameId) {
-        this.gameId = gameId;
+    public void setGameNo(int gameNo) {
+        this.gameNo = gameNo;
     }
 
     public int getGameType() {

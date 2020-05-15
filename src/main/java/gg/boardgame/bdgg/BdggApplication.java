@@ -21,7 +21,7 @@ public class BdggApplication implements CommandLineRunner {
 	UserRepository userRepository;
 
 	@Autowired
-	UserGaemHistoryRepository userGameHistoryRepository;
+	UserGameHistoryRepository userGameHistoryRepository;
 
 	@Autowired
 	MatchRepository matchRepository;

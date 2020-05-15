@@ -6,10 +6,10 @@ import gg.boardgame.bdgg.service.ProfileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -29,12 +29,13 @@ public class ProfileController {
     }
 
     @RequestMapping(path = "/{userId}/matches", method = RequestMethod.GET)
-    public @ResponseBody List<MatchDTO> getMatchListOfUser(@PathVariable("userId") String userId,
-                                      @RequestParam(value = "gameId", required = false) Integer gameId,
-                                      @RequestParam(value = "gameType", required = false) Integer gameType) {
+    public @ResponseBody List<MatchDTO> getMatchListOfUser(@PathVariable("userId") Integer userId,
+                           @RequestParam(value = "gameId", required = false) Integer gameId,
+                           @RequestParam(value = "gameType", required = false) Integer gameType,
+                           Pageable pageable) {
         logger.info(String.format("userId: %s, gameId: %d, gameType: %d", userId, gameId, gameType));
 
         // call service
-        return new ArrayList<>();
+        return profileService.getMatchList(userId, gameId, gameType, pageable);
     }
 }

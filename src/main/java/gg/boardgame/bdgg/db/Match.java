@@ -10,8 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "MATCHES")
-@Getter
-@Setter
+@Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Match {
     @Id @GeneratedValue
@@ -47,5 +46,4 @@ public class Match {
         this.group = group;
         this.group.getMatches().add(this);
     }
-
 }

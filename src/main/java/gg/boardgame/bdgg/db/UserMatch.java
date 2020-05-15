@@ -32,4 +32,14 @@ public class UserMatch {
         this.id = id;
         this.score = score;
     }
+
+    public void changeUser(User user) {
+        this.user = user;
+        user.getUserMatches().add(this);
+    }
+
+    public void changeMatch(Match match) {
+        this.match = match;
+        match.getUserMatches().add(this);
+    }
 }

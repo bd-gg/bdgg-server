@@ -43,4 +43,9 @@ public class Match {
         this.playedTime = playedTime;
     }
 
+    public void changeGroup(Group group) {
+        this.group = group;
+        this.group.getMatches().add(this);
+    }
+
 }

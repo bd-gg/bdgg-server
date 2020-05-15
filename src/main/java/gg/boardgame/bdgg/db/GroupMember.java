@@ -28,4 +28,14 @@ public class GroupMember {
         Assert.notNull(id, "id must be not null");
         this.id = id;
     }
+
+    public void changeUser(User user) {
+        this.user = user;
+        user.getGroupMembers().add(this);
+    }
+
+    public void changeGroup(Group group) {
+        this.group = group;
+        group.getGroupMembers().add(this);
+    }
 }

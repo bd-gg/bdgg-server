@@ -44,12 +44,13 @@ public class Group {
         Assert.notNull(groupPlace, "groupPlace must be not null");
         Assert.notNull(groupEnterPassword, "groupEnterPassword must be not null");
         Assert.notNull(groupLeader, "groupLeader must be not null");
-        Assert.notNull(inventory, "inventory must be not null");
         this.id = id;
         this.groupName = groupName;
         this.groupPlace = groupPlace;
         this.groupEnterPassword = groupEnterPassword;
         this.groupLeader = groupLeader;
+        /* inventory can be bull */
         this.inventory = inventory;
     }
+
 }

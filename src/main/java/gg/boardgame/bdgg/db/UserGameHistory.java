@@ -32,4 +32,8 @@ public class UserGameHistory {
         this.count = count;
     }
 
+    public void changeUser(User user) {
+        this.user = user;
+        user.setGameHistory(this);
+    }
 }

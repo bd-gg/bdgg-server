@@ -54,4 +54,12 @@ public class Match {
     public void setPlayTime(int playTime) {
         this.playTime = playTime;
     }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
 }

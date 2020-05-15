@@ -25,8 +25,8 @@ public class User {
     @Column(name = "image_url")
     private String imageUrl;
 
-    @OneToOne(mappedBy = "user")
-    private UserGameHistory gameHistory;
+    @OneToMany(mappedBy = "user")
+    private List<UserGameHistory> gameHistories = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     private List<UserMatch> userMatches = new ArrayList<>();

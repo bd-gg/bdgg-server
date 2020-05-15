@@ -14,7 +14,7 @@ public class UserGameHistory {
     @GeneratedValue
     private long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -34,6 +34,6 @@ public class UserGameHistory {
 
     public void changeUser(User user) {
         this.user = user;
-        user.setGameHistory(this);
+        user.getGameHistories().add(this);
     }
 }

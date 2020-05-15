@@ -1,14 +1,14 @@
 package gg.boardgame.bdgg.db;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "GROUP_MEMBER")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class GroupMember {
     @Id
@@ -22,4 +22,20 @@ public class GroupMember {
     @ManyToOne
     @JoinColumn(name = "group_id") //child 에 지정되어 있는 FK match_id 기준으로 match 조회
     private Group group;
+
+    @Builder
+    public GroupMember(long id) {
+        Assert.notNull(id, "id must be not null");
+        this.id = id;
+    }
+
+    public void changeUser(User user) {
+        this.user = user;
+        user.getGroupMembers().add(this);
+    }
+
+    public void changeGroup(Group group) {
+        this.group = group;
+        group.getGroupMembers().add(this);
+    }
 }

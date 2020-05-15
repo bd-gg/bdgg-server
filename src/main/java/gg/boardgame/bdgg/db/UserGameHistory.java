@@ -1,8 +1,15 @@
 package gg.boardgame.bdgg.db;
 
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
+@Table(name = "USER_GAME_HISTORY")
+@Data
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserGameHistory {
     @Id
     @GeneratedValue

@@ -1,8 +1,15 @@
 package gg.boardgame.bdgg.db;
 
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
+@Table(name = "USER_MATCH")
+@Data
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserMatch {
 
     @Id @GeneratedValue
@@ -18,28 +25,4 @@ public class UserMatch {
 
     @Column(name = "score")
     private int score;
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Match getMatch() {
-        return match;
-    }
-
-    public void setMatch(Match match) {
-        this.match = match;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
 }

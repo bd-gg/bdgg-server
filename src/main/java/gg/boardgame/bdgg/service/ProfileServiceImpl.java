@@ -40,8 +40,7 @@ public class ProfileServiceImpl implements ProfileService{
             item.setId(match.getId());
             item.setGameNo(match.getGameNo());
             item.setGameType(match.getGameType());
-//            item.setPlayedTime(match.getPlayTime());
-            // need to set time
+            item.setPlayedTime(match.getPlayedTime());
             item.setGroupId(match.getGroup().getId());
             item.setPlace("nee to set place");
             item.setResult(userMatch.getScore());

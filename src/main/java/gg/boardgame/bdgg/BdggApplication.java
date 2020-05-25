@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.ManyToOne;
 import javax.sql.DataSource;
@@ -35,6 +36,9 @@ public class BdggApplication implements CommandLineRunner {
 	@Autowired
 	UserMatchRepository userMatchRepository;
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
 	public static void main(String[] args) {
 		SpringApplication.run(BdggApplication.class, args);
 	}
@@ -51,14 +55,14 @@ public class BdggApplication implements CommandLineRunner {
 		User taehyun = User.builder()
 				.id(1)
 				.name("TaehyunHwang")
-				.password("pass1")
+				.password(passwordEncoder.encode("pass1"))
 				.email("eeht1717@naver.com")
 				.imageUrl("https://imgur.com/Tp6WyNv.png").build();
 
 		User jaewon = User.builder()
 				.id(2)
 				.name("JawonKim")
-				.password("pass2")
+				.password(passwordEncoder.encode("pass2"))
 				.email("huhu420@naver.com")
 				.imageUrl("https://imgur.com/Tp6WyNv.png").build();
 
@@ -87,7 +91,6 @@ public class BdggApplication implements CommandLineRunner {
 		UserMatch userMatchOne = UserMatch.builder().id(1).score(80).build();
 		userMatchOne.changeUser(taehyun);
 		userMatchOne.changeMatch(macthOne);
-
 		userMatchRepository.save(userMatchOne);
 
 		GroupMember groupMemberOne = GroupMember.builder().id(1).build();
@@ -95,6 +98,7 @@ public class BdggApplication implements CommandLineRunner {
 		groupMemberOne.changeGroup(groupOne);
 
 		groupMemberRepository.save(groupMemberOne);
+
 
 	}
 }

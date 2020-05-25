@@ -1,5 +1,7 @@
 package gg.boardgame.bdgg.controller;
 
+import gg.boardgame.bdgg.db.User;
+import gg.boardgame.bdgg.dto.GameHistoryDTO;
 import gg.boardgame.bdgg.dto.MatchDTO;
 import gg.boardgame.bdgg.dto.ProfileDTO;
 import gg.boardgame.bdgg.service.ProfileService;
@@ -21,11 +23,12 @@ public class ProfileController {
 
     private final Logger logger = LoggerFactory.getLogger(ProfileController.class);
 
-    @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
-    public @ResponseBody ProfileDTO getProfile(@PathVariable("userId") String userId) {
+    @RequestMapping(path = "/{userId}", method = RequestMethod.GET)
+    public @ResponseBody ProfileDTO getProfile(@PathVariable("userId") Integer userId, Pageable pageable) {
         logger.info(String.format("userId: %s", userId));
+
         // call service
-        return new ProfileDTO();
+        return profileService.getProfile(userId, pageable);
     }
 
     @RequestMapping(path = "/{userId}/matches", method = RequestMethod.GET)

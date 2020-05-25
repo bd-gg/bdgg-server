@@ -21,7 +21,7 @@ public class BdggApplication implements CommandLineRunner {
 	UserRepository userRepository;
 
 	@Autowired
-	UserGaemHistoryRepository userGameHistoryRepository;
+	UserGameHistoryRepository userGameHistoryRepository;
 
 	@Autowired
 	MatchRepository matchRepository;
@@ -68,7 +68,7 @@ public class BdggApplication implements CommandLineRunner {
 		UserGameHistory gameHistoryOne = UserGameHistory.builder().id(1).count(80).build();
 		gameHistoryOne.changeUser(taehyun);
 		UserGameHistory gameHistoryTwo = UserGameHistory.builder().id(2).count(100).build();
-		gameHistoryTwo.changeUser(jaewon);
+		gameHistoryTwo.changeUser(taehyun);
 
 		userGameHistoryRepository.save(gameHistoryOne);
 		userGameHistoryRepository.save(gameHistoryTwo);

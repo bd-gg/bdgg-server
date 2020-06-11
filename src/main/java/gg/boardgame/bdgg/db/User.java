@@ -3,6 +3,7 @@ package gg.boardgame.bdgg.db;
 import lombok.*;
 import org.springframework.util.Assert;
 
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;

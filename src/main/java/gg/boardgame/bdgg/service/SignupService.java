@@ -1,7 +1,7 @@
 package gg.boardgame.bdgg.service;
 
-import gg.boardgame.bdgg.dto.UserDTO;
+import gg.boardgame.bdgg.dto.OAuthDTO;
 
 public interface SignupService {
-    public UserDTO createUser(UserDTO userInfo);
+    public OAuthDTO createUser(OAuthDTO userInfo);
 }

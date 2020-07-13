@@ -108,11 +108,13 @@ public class KakaoAPI {
 
             String id = properties.getAsJsonObject().get("id").getAsString();
             String nickname = properties.getAsJsonObject().get("nickname").getAsString();
+            String profile = properties.getAsJsonObject().get("profile_image").getAsString();
             String email = kakao_account.getAsJsonObject().get("email").getAsString();
 
             userInfo.put("id", id);
             userInfo.put("nickname", nickname);
             userInfo.put("email", email);
+            userInfo.put("profile", profile);
 
         } catch (IOException e) {
             // TODO Auto-generated catch block

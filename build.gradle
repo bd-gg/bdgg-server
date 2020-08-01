@@ -68,13 +68,7 @@ task deployWar(dependsOn: bootWar){
 		ssh.run {
 			session(remotes.webServer) {
 				println "Uploading new war"
-				put from: war.archivePath.absolutePath, into: "${tomcatHome}/${warName}.war.new"
-
-				println "removing old war"
-				execute("rm ${tomcatHome}/${warName}.war")
-
-				println "activating new war"
-				execute("mv ${tomcatHome}/${warName}.war{.new,}")
+				put from: war.archivePath.absolutePath, into: "${tomcatHome}/${warName}.war"
 			}
 		}
 	}

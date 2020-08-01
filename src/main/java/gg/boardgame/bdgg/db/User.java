@@ -25,6 +25,10 @@ public class User {
     private String email;
     @Column(name = "image_url")
     private String imageUrl;
+    @Column(name = "provider")
+    private String provider;
+    @Column(name = "snsId")
+    private String snsId;
 
     @OneToMany(mappedBy = "user")
     private List<UserGameHistory> gameHistories = new ArrayList<>();
@@ -36,17 +40,19 @@ public class User {
     private List<GroupMember> groupMembers = new ArrayList<>();
 
     @Builder
-    public User(long id, String name, String password, String email, String imageUrl) {
-        Assert.notNull(id, "id must be not null");
+    public User(String name, String password, String email, String imageUrl, String provider, String snsId) {
         Assert.notNull(name, "name must be not null");
         Assert.notNull(password, "password must be not null");
         Assert.notNull(email, "email must be not null");
         Assert.notNull(imageUrl, "imageUrl must be not null");
-        this.id = id;
+        Assert.notNull(provider, "provider must be not null");
+        Assert.notNull(snsId, "snsId must be not null");
         this.name = name;
         this.password = password;
         this.email = email;
         this.imageUrl = imageUrl;
+        this.provider = provider;
+        this.snsId = snsId;
     }
 
 }

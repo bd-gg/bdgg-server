@@ -29,20 +29,24 @@ public class SignupServiceImpl implements SignupService {
 
     @Override
     public OAuthDTO createUser(OAuthDTO OAuthInfo) {
+        System.out.println("createUser is called");
         /* get kakao user info */
         HashMap<String, Object> userInfo = kakao.getUserInfo(OAuthInfo.getAccessToken());
-        Optional<User> retUser = userRepository.findById(Long.parseLong(userInfo.get("id").toString()));
+        System.out.println(userInfo);
+        Optional<User> retUser = userRepository.findBySnsIdAndProvider(userInfo.get("snsId").toString(),OAuthInfo.getProvider());
         if(retUser.isPresent()) {
             log.warn("User already exists");
             return null;
         }
         /* save db */
         User user = User.builder()
-                .id(Long.parseLong(userInfo.get("id").toString()))
                 .name(userInfo.get("nickname").toString())
                 .password(passwordEncoder.encode("pass1"))
                 .email(userInfo.get("email").toString())
-                .imageUrl(userInfo.get("profile").toString()).build();
+                .imageUrl(userInfo.get("profile").toString())
+                .provider(OAuthInfo.getProvider())
+                .snsId(userInfo.get("id").toString())
+                .build();
         userRepository.save(user);
 
         /* issue jwt token */
@@ -59,6 +63,7 @@ public class SignupServiceImpl implements SignupService {
         OAuthDTO dto = new OAuthDTO();
         dto.setAccessToken(accessToken);
         dto.setRefreshToken(refreshToken);
+
 
         return dto;
     }

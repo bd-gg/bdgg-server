@@ -9,5 +9,6 @@ public class OAuthDTO {
     private String nativeKey;
     private String accessToken;
     private String refreshToken;
+    private String provider;
 }
 

@@ -32,11 +32,26 @@ public class SignupServiceImpl implements SignupService {
         System.out.println("createUser is called");
         /* get kakao user info */
         HashMap<String, Object> userInfo = kakao.getUserInfo(OAuthInfo.getAccessToken());
-        System.out.println(userInfo);
+        System.out.println("userInfo: "+userInfo);
         Optional<User> retUser = userRepository.findBySnsIdAndProvider(userInfo.get("snsId").toString(),OAuthInfo.getProvider());
         if(retUser.isPresent()) {
             log.warn("User already exists");
-            return null;
+            /* issue jwt token */
+            // We need a signing key, so we'll create one just for this example. Usually
+            // the key would be read from your application configuration instead.
+            String accessToken = new String();
+            String refreshToken = new String();
+            try {
+                accessToken = jwtService.makeJwt(userInfo,60*60); // 1 hour
+                refreshToken = jwtService.makeJwt(userInfo,60*60*24*7*2); // 2 weeks
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            OAuthDTO dto = new OAuthDTO();
+            dto.setAccessToken(accessToken);
+            dto.setRefreshToken(refreshToken);
+
+            return dto;
         }
         /* save db */
         User user = User.builder()
@@ -45,7 +60,7 @@ public class SignupServiceImpl implements SignupService {
                 .email(userInfo.get("email").toString())
                 .imageUrl(userInfo.get("profile").toString())
                 .provider(OAuthInfo.getProvider())
-                .snsId(userInfo.get("id").toString())
+                .snsId(userInfo.get("snsId").toString())
                 .build();
         userRepository.save(user);
 
@@ -63,7 +78,6 @@ public class SignupServiceImpl implements SignupService {
         OAuthDTO dto = new OAuthDTO();
         dto.setAccessToken(accessToken);
         dto.setRefreshToken(refreshToken);
-
 
         return dto;
     }

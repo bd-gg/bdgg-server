@@ -27,6 +27,7 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compile 'org.apache.httpcomponents:httpclient:4.5.12'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
@@ -46,6 +47,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+	implementation 'mysql:mysql-connector-java'
+	compile 'io.jsonwebtoken:jjwt:0.9.0'
+	compile 'com.google.code.gson:gson:2.8.5'
 }
 
 remotes {
@@ -64,13 +68,7 @@ task deployWar(dependsOn: bootWar){
 		ssh.run {
 			session(remotes.webServer) {
 				println "Uploading new war"
-				put from: war.archivePath.absolutePath, into: "${tomcatHome}/${warName}.war.new"
-
-				println "removing old war"
-				execute("rm ${tomcatHome}/${warName}.war")
-
-				println "activating new war"
-				execute("mv ${tomcatHome}/${warName}.war{.new,}")
+				put from: war.archivePath.absolutePath, into: "${tomcatHome}/${warName}.war"
 			}
 		}
 	}

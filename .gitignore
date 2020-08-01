@@ -33,3 +33,4 @@ out/
 
 ### application.properties ###
 application.properties
+application.yml

@@ -53,18 +53,20 @@ public class BdggApplication implements CommandLineRunner {
 		}
 
 		User taehyun = User.builder()
-				.id(1)
 				.name("TaehyunHwang")
 				.password(passwordEncoder.encode("pass1"))
-				.email("eeht1717@naver.com")
-				.imageUrl("https://imgur.com/Tp6WyNv.png").build();
+				.email("eeht1717@gmail.com")
+				.imageUrl("https://imgur.com/Tp6WyNv.png")
+				.provider("init")
+				.snsId("1").build();
 
 		User jaewon = User.builder()
-				.id(2)
 				.name("JawonKim")
 				.password(passwordEncoder.encode("pass2"))
 				.email("huhu420@naver.com")
-				.imageUrl("https://imgur.com/Tp6WyNv.png").build();
+				.imageUrl("https://imgur.com/Tp6WyNv.png")
+				.provider("init")
+				.snsId("2").build();
 
 		userRepository.save(taehyun);
 		userRepository.save(jaewon);

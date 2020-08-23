@@ -23,7 +23,7 @@ public class MatchController {
     @RequestMapping(path = "/{matchId}", method = RequestMethod.GET)
     public ResponseEntity<MatchDTO> getMatch(@PathVariable("matchId") long matchId, Pageable pageable) throws ResourceNotFoundException {
         log.info("getProfile is called");
-        log.info(String.format("matchId: %l", matchId));
+        log.info(String.format("matchId: %d", matchId));
 
         MatchDTO match = matchService.getMatch(matchId, pageable);
 

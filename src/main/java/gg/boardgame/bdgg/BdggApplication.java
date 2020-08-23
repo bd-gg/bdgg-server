@@ -86,6 +86,7 @@ public class BdggApplication implements CommandLineRunner {
 		String timestamp = "2020-05-10 10:20:30.0";
 		java.sql.Timestamp time = java.sql.Timestamp.valueOf(timestamp);
 		Match macthOne = Match.builder().id(1).gameId(203828).gameType(1).playedTime(time).place("BunDang").build();
+		macthOne.setWinnerId(taehyun.getId());
 		macthOne.changeGroup(groupOne);
 
 		matchRepository.save(macthOne);

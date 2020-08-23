@@ -13,8 +13,6 @@ import java.util.List;
 
 @Service
 public class MatchServiceImpl implements MatchService{
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private MatchRepository matchRepository;

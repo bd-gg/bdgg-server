@@ -12,8 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Slf4j
 @Controller
 @RequestMapping("/matches")
@@ -27,7 +25,7 @@ public class MatchController {
         log.info("getProfile is called");
         log.info(String.format("matchId: %l", matchId));
 
-        MatchDTO match = matchService.getMatch(matchId);
+        MatchDTO match = matchService.getMatch(matchId, pageable);
 
         // call service
         return ResponseEntity.ok(match);

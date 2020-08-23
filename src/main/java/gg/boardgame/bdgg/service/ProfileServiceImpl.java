@@ -11,10 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 @Service
 public class ProfileServiceImpl implements ProfileService{
     @Autowired
@@ -22,9 +18,6 @@ public class ProfileServiceImpl implements ProfileService{
 
     @Autowired
     private UserGameHistoryRepository userGameHistoryRepository;
-
-    @Autowired
-    private UserMatchRepository userMatchRepository;
 
     @Override
     public ProfileDTO getProfile(String userName, Pageable pageable) throws ResourceNotFoundException {

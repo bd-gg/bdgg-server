@@ -5,9 +5,6 @@ import gg.boardgame.bdgg.dto.UserDTO;
 import gg.boardgame.bdgg.service.JwtService;
 import gg.boardgame.bdgg.service.SignupService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j

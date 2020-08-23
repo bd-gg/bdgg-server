@@ -5,6 +5,7 @@ import gg.boardgame.bdgg.dto.GameHistoryDTO;
 import gg.boardgame.bdgg.dto.IndividualGameResultDTO;
 import gg.boardgame.bdgg.dto.MatchDTO;
 import gg.boardgame.bdgg.dto.ProfileDTO;
+import gg.boardgame.bdgg.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,12 +27,14 @@ public class ProfileServiceImpl implements ProfileService{
     private UserMatchRepository userMatchRepository;
 
     @Override
-    public ProfileDTO getProfile(Integer userId, Pageable pageable) {
+    public ProfileDTO getProfile(String userName, Pageable pageable) throws ResourceNotFoundException {
 
-        Optional<User> user = userRepository.findById(userId);
+        User user = userRepository.findByName(userName).orElseThrow(() -> new ResourceNotFoundException("user is not found for this name:: " + userName));
+
+        long userId = user.getId();
         Page<UserGameHistory> userGameHistories = userGameHistoryRepository.findByUser_Id(userId, pageable);
 
-        ProfileDTO profile = new ProfileDTO(user.get());
+        ProfileDTO profile = new ProfileDTO(user);
 
         userGameHistories.getContent().forEach(u -> {
             GameHistoryDTO item = new GameHistoryDTO();

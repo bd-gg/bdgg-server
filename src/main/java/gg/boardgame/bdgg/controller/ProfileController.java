@@ -4,16 +4,18 @@ import gg.boardgame.bdgg.db.User;
 import gg.boardgame.bdgg.dto.GameHistoryDTO;
 import gg.boardgame.bdgg.dto.MatchDTO;
 import gg.boardgame.bdgg.dto.ProfileDTO;
+import gg.boardgame.bdgg.exception.ResourceNotFoundException;
 import gg.boardgame.bdgg.service.ProfileService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequestMapping("/profiles")
 public class ProfileController {
@@ -21,14 +23,14 @@ public class ProfileController {
     @Autowired
     private ProfileService profileService;
 
-    private final Logger logger = LoggerFactory.getLogger(ProfileController.class);
+    @RequestMapping(path = "/{userName}", method = RequestMethod.GET)
+    public ResponseEntity<ProfileDTO> getProfile(@PathVariable("userName") String userName, Pageable pageable) throws ResourceNotFoundException {
+        log.info(String.format("userName: %s", userName));
 
-    @RequestMapping(path = "/{userId}", method = RequestMethod.GET)
-    public @ResponseBody ProfileDTO getProfile(@PathVariable("userId") Integer userId, Pageable pageable) {
-        logger.info(String.format("userId: %s", userId));
+        ProfileDTO profile = profileService.getProfile(userName, pageable);
 
         // call service
-        return profileService.getProfile(userId, pageable);
+        return ResponseEntity.ok(profile);
     }
 
     @RequestMapping(path = "/{userId}/matches", method = RequestMethod.GET)
@@ -36,7 +38,7 @@ public class ProfileController {
                            @RequestParam(value = "gameId", required = false) Integer gameId,
                            @RequestParam(value = "gameType", required = false) Integer gameType,
                            Pageable pageable) {
-        logger.info(String.format("userId: %s, gameId: %d, gameType: %d", userId, gameId, gameType));
+        log.info(String.format("userId: %s, gameId: %d, gameType: %d", userId, gameId, gameType));
 
         // call service
         return profileService.getMatchList(userId, gameId, gameType, pageable);

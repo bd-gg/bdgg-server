@@ -38,7 +38,7 @@ public class Match {
     private List<UserMatch> userMatches = new ArrayList<>();
 
     @Builder
-    public Match(long id, int gameId, int gameType, Timestamp playedTime) {
+    public Match(long id, int gameId, int gameType, Timestamp playedTime, String place) {
         Assert.notNull(id, "id must be not null");
         Assert.notNull(gameId, "gameId must be not null");
         Assert.notNull(gameType, "gameType must be not null");

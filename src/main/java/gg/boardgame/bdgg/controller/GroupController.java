@@ -1,5 +1,6 @@
 package gg.boardgame.bdgg.controller;
 
+import com.google.gson.JsonObject;
 import gg.boardgame.bdgg.exception.ResourceNotFoundException;
 import gg.boardgame.bdgg.service.GroupService;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -21,14 +23,14 @@ public class GroupController {
     @Autowired
     private GroupService groupService;
 
-    @RequestMapping(path = "/groups/{groupId}/matches", method = RequestMethod.GET)
-    public ResponseEntity<List<Long>> getMatchIds(@PathVariable("groupId") long groupId,
+    @RequestMapping(path = "/{groupId}/matches", method = RequestMethod.GET)
+    public ResponseEntity<List<Map.Entry<String,Long>>> getMatchIds(@PathVariable("groupId") long groupId,
                                       Pageable pageable) throws ResourceNotFoundException {
         log.info("getMatchIds is called");
-        log.info(String.format("groupId: %l", groupId));
+        log.info(String.format("groupId: %d", groupId));
 
         // call service
-        List<Long> matchIds = groupService.getMatchIds(groupId, pageable);
+        List<Map.Entry<String,Long>> matchIds = groupService.getMatchIds(groupId, pageable);
 
         return ResponseEntity.ok(matchIds);
     }

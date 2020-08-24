@@ -85,15 +85,28 @@ public class BdggApplication implements CommandLineRunner {
 
 		String timestamp = "2020-05-10 10:20:30.0";
 		java.sql.Timestamp time = java.sql.Timestamp.valueOf(timestamp);
-		Match macthOne = Match.builder().id(1).gameNo(203828).gameType(1).playedTime(time).build();
+		Match macthOne = Match.builder().id(1).gameId(203828).gameType(1).playedTime(time).place("BunDang").build();
+		macthOne.setWinnerId(taehyun.getId());
 		macthOne.changeGroup(groupOne);
 
 		matchRepository.save(macthOne);
+
+		timestamp = "2020-08-15 12:10:17.0";
+		time = java.sql.Timestamp.valueOf(timestamp);
+		Match macthTwo = Match.builder().id(2).gameId(203829).gameType(1).playedTime(time).place("Seoul").build();
+		macthTwo.changeGroup(groupOne);
+
+		matchRepository.save(macthTwo);
 
 		UserMatch userMatchOne = UserMatch.builder().id(1).score(80).build();
 		userMatchOne.changeUser(taehyun);
 		userMatchOne.changeMatch(macthOne);
 		userMatchRepository.save(userMatchOne);
+
+		UserMatch userMatchTwo = UserMatch.builder().id(2).score(90).build();
+		userMatchTwo.changeUser(jaewon);
+		userMatchTwo.changeMatch(macthOne);
+		userMatchRepository.save(userMatchTwo);
 
 		GroupMember groupMemberOne = GroupMember.builder().id(1).build();
 		groupMemberOne.changeUser(taehyun);

@@ -32,15 +32,4 @@ public class ProfileController {
         // call service
         return ResponseEntity.ok(profile);
     }
-
-    @RequestMapping(path = "/{userId}/matches", method = RequestMethod.GET)
-    public @ResponseBody List<MatchDTO> getMatchListOfUser(@PathVariable("userId") Integer userId,
-                           @RequestParam(value = "gameId", required = false) Integer gameId,
-                           @RequestParam(value = "gameType", required = false) Integer gameType,
-                           Pageable pageable) {
-        log.info(String.format("userId: %s, gameId: %d, gameType: %d", userId, gameId, gameType));
-
-        // call service
-        return profileService.getMatchList(userId, gameId, gameType, pageable);
-    }
 }

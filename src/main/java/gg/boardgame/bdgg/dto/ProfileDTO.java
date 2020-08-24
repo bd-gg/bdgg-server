@@ -7,17 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class ProfileDTO {
-    private long id;
-    private String name;
-    private String email;
-    private String imageUrl;
+public class ProfileDTO extends UserDTO{
     private List<GameHistoryDTO> mostPlayed = new ArrayList<>();
 
     public ProfileDTO(User user) {
-        this.id = user.getId();
-        this.name = user.getName();
-        this.email = user.getEmail();
-        this.imageUrl = user.getImageUrl();
+        super(user);
     }
 }

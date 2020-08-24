@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Table(name = "GROUP_MEMBER")
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class GroupMember {
     @Id
     @GeneratedValue
@@ -22,12 +22,6 @@ public class GroupMember {
     @ManyToOne
     @JoinColumn(name = "group_id") //child 에 지정되어 있는 FK match_id 기준으로 match 조회
     private Group group;
-
-    @Builder
-    public GroupMember(long id) {
-        Assert.notNull(id, "id must be not null");
-        this.id = id;
-    }
 
     public void changeUser(User user) {
         this.user = user;

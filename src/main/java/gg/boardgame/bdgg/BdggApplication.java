@@ -108,12 +108,17 @@ public class BdggApplication implements CommandLineRunner {
 		userMatchTwo.changeMatch(macthOne);
 		userMatchRepository.save(userMatchTwo);
 
-		GroupMember groupMemberOne = GroupMember.builder().id(1).build();
+		GroupMember groupMemberOne = new GroupMember();
 		groupMemberOne.changeUser(taehyun);
 		groupMemberOne.changeGroup(groupOne);
 
 		groupMemberRepository.save(groupMemberOne);
 
+		GroupMember groupMemberTwo = new GroupMember();
+		groupMemberTwo.changeUser(jaewon);
+		groupMemberTwo.changeGroup(groupOne);
+
+		groupMemberRepository.save(groupMemberTwo);
 
 	}
 }

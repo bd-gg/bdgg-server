@@ -13,8 +13,11 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Group {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Column(name = "GROUP_IMAGE")
+    private String groupImage;
 
     @Column(name = "GROUP_NAME")
     private String groupName;
@@ -26,7 +29,7 @@ public class Group {
     private String groupEnterPassword;
 
     @Column(name = "GROUP_LEADER")
-    private int groupLeader;
+    private long groupLeader;
 
     @Column(name = "INVENTORY")
     private String inventory;
@@ -38,13 +41,12 @@ public class Group {
     private List<Match> matches = new ArrayList<>();
 
     @Builder
-    public Group(long id, String groupName, String groupPlace, String groupEnterPassword, int groupLeader, String inventory) {
-        Assert.notNull(id, "id must be not null");
+    public Group(long id, String groupImage, String groupName, String groupPlace, String groupEnterPassword, long groupLeader, String inventory) {
         Assert.notNull(groupName, "groupName must be not null");
         Assert.notNull(groupPlace, "groupPlace must be not null");
         Assert.notNull(groupEnterPassword, "groupEnterPassword must be not null");
         Assert.notNull(groupLeader, "groupLeader must be not null");
-        this.id = id;
+        this.groupImage = groupImage; // this can be null;
         this.groupName = groupName;
         this.groupPlace = groupPlace;
         this.groupEnterPassword = groupEnterPassword;

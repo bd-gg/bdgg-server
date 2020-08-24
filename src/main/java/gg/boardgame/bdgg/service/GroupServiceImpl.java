@@ -15,6 +15,7 @@ import gg.boardgame.bdgg.db.GroupRepository;
 import gg.boardgame.bdgg.dto.GroupDTO;
 import gg.boardgame.bdgg.dto.GroupListDTO;
 import lombok.extern.slf4j.Slf4j;
+
 import java.util.NoSuchElementException;
 
 @Slf4j
@@ -22,6 +23,10 @@ import java.util.NoSuchElementException;
 public class GroupServiceImpl implements GroupService{
     @Autowired
     private GroupRepository groupRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private GroupMemberRepository groupMemberRepository;
 
     @Override
     public List<Map.Entry<String,Long>> getMatchIds(long id, Pageable pageable) throws ResourceNotFoundException {
@@ -40,6 +45,12 @@ public class GroupServiceImpl implements GroupService{
     public GroupDTO createGroup(GroupDTO group, long leaderId) {
         /* no need to check if it already exist
         *  because, group doesn't have unique properties */
+        // get users by id
+        List<User> users = userRepository.findByIdIn(group.getMembers());
+        if(users.size() != group.getMembers().size()) {
+            // invalid user-ids exist
+            throw new NoSuchElementException();
+        }
 
         Group groupDO = Group.builder()
                 .groupName(group.getName())
@@ -50,6 +61,16 @@ public class GroupServiceImpl implements GroupService{
 
         groupRepository.save(groupDO);
         groupRepository.flush();
+
+        // create GroupMembers table entity
+        List<GroupMember> gmList = new ArrayList<>();
+        users.stream().forEach(x -> {
+            GroupMember gm = new GroupMember();
+            gm.setGroup(groupDO);
+            gm.setUser(x);
+            gmList.add(gm);
+        });
+        groupMemberRepository.saveAll(gmList);
 
         // set generated id
         group.setId(groupDO.getId());

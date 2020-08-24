@@ -42,12 +42,10 @@ public class Group {
 
     @Builder
     public Group(long id, String groupImage, String groupName, String groupPlace, String groupEnterPassword, long groupLeader, String inventory) {
-        Assert.notNull(id, "id must be not null");
         Assert.notNull(groupName, "groupName must be not null");
         Assert.notNull(groupPlace, "groupPlace must be not null");
         Assert.notNull(groupEnterPassword, "groupEnterPassword must be not null");
         Assert.notNull(groupLeader, "groupLeader must be not null");
-        this.id = id;
         this.groupImage = groupImage; // this can be null;
         this.groupName = groupName;
         this.groupPlace = groupPlace;

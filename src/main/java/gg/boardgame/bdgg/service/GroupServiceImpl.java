@@ -1,5 +1,6 @@
 package gg.boardgame.bdgg.service;
 
+import gg.boardgame.bdgg.db.*;
 import gg.boardgame.bdgg.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -10,8 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import gg.boardgame.bdgg.db.Group;
-import gg.boardgame.bdgg.db.GroupRepository;
 import gg.boardgame.bdgg.dto.GroupDTO;
 import gg.boardgame.bdgg.dto.GroupListDTO;
 import lombok.extern.slf4j.Slf4j;

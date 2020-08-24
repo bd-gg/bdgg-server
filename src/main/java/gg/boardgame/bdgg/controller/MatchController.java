@@ -1,10 +1,8 @@
 package gg.boardgame.bdgg.controller;
 
 import gg.boardgame.bdgg.dto.MatchDTO;
-import gg.boardgame.bdgg.dto.ProfileDTO;
 import gg.boardgame.bdgg.exception.ResourceNotFoundException;
 import gg.boardgame.bdgg.service.MatchService;
-import gg.boardgame.bdgg.service.ProfileService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;

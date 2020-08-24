@@ -15,6 +15,8 @@ public class GroupDTO {
     private String place;
     private List<Long> members;
 
+    public GroupDTO() {}
+
     public GroupDTO(Long id, String image, String name, String place, List<Long> members) {
         this.id = id;
         this.image = image;

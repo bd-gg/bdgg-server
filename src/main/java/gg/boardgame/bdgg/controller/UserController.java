@@ -31,7 +31,7 @@ public class UserController {
         return new ResponseEntity<>(profile, HttpStatus.OK);
     }
 
-    @PostMapping("/{user-id}/groups/{group-id}")
+    @PostMapping("/{user-id}/groups/{group-id}/join")
     public ResponseEntity joinGroup(@PathVariable("user-id") Long userId,
                                     @PathVariable("group-id") Long groupId) {
 

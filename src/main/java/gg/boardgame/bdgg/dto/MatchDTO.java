@@ -30,5 +30,10 @@ public class MatchDTO {
         this.playedTime = match.getPlayedTime();
         this.place = match.getPlace();
         this.result = match.getResult();
+        this.winnerId = match.getWinnerId();
+        /* get userIds */
+        match.getUserMatches().forEach(userMatch -> {
+            this.userIds.add(userMatch.getUser().getId());
+        });
     }
 }

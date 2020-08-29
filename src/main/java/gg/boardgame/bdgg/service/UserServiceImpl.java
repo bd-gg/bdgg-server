@@ -27,6 +27,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private GroupMemberRepository groupMemberRepository;
 
+    @Autowired
+    private GroupService groupService;
+
     @Override
     public ProfileDTO getProfile(String userName, Pageable pageable) throws ResourceNotFoundException {
 
@@ -60,11 +63,8 @@ public class UserServiceImpl implements UserService {
         gm.setGroup(foundGroup);
         groupMemberRepository.save(gm);
 
-        // create return groupDTO
-        GroupDTO groupDTO = new GroupDTO();
-        groupDTO.copyFromGroupDO(foundGroup);
-
-        return groupDTO;
+        // create and return groupDTO
+        return groupService.createGroupDtoFromGroup(foundGroup);
     }
 
     @Override
@@ -73,9 +73,10 @@ public class UserServiceImpl implements UserService {
 
         // create GroupList
         GroupListDTO groupList = new GroupListDTO();
-        List<Group> items = new ArrayList<>();
+        List<GroupDTO> items = new ArrayList<>();
 
-        groupMemberList.stream().forEach(gm -> items.add(gm.getGroup()));
+        // set groupDTO list
+        groupMemberList.stream().forEach(gm -> items.add(groupService.createGroupDtoFromGroup(gm.getGroup())));
         groupList.setItems(items);
 
         return groupList;

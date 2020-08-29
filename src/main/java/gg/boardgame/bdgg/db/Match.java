@@ -18,7 +18,7 @@ public class Match {
     private long id;
 
     @Column(name="game_id")
-    private int gameId;
+    private long gameId;
     @Column(name="game_type")
     private int gameType;
     @Column(name="played_time")

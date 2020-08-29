@@ -14,9 +14,9 @@ import java.util.Map;
 @Slf4j
 @Data
 public class MatchDTO {
-    private long id;
-    private int gameId;
-    private int gameType;
+    private Long id;
+    private Long gameId;
+    private Integer gameType;
     private Date playedTime;
     private String place;
     private String result;

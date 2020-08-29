@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class GameHistoryDTO {
-    private int gameId;
-    private int count;
+    private Long gameId;
+    private Long count;
 }

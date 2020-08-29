@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class GameHistoryDTO {
     private Long gameId;
-    private Long count;
+    private Integer count;
 }

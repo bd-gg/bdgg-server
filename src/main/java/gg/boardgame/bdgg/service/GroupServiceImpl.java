@@ -62,8 +62,8 @@ public class GroupServiceImpl implements GroupService{
         List<GroupMember> gmList = new ArrayList<>();
         users.stream().forEach(x -> {
             GroupMember gm = new GroupMember();
-            gm.setGroup(groupDO);
-            gm.setUser(x);
+            gm.changeGroup(groupDO);
+            gm.changeUser(x);
             gmList.add(gm);
         });
         groupMemberRepository.saveAll(gmList);

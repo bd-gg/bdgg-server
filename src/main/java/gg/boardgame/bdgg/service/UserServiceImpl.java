@@ -59,8 +59,8 @@ public class UserServiceImpl implements UserService {
 
         // create GroupMember entity
         GroupMember gm = new GroupMember();
-        gm.setUser(foundUser);
-        gm.setGroup(foundGroup);
+        gm.changeUser(foundUser);
+        gm.changeGroup(foundGroup);
         groupMemberRepository.save(gm);
 
         // create and return groupDTO

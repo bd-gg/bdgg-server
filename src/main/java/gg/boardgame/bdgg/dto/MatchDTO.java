@@ -20,9 +20,8 @@ public class MatchDTO {
     private Date playedTime;
     private String place;
     private String result;
-    private String winnerUserName;
-    private long winnerScore;
-    private List<Map.Entry<String,Long>> userIds = new ArrayList<>();
+    private Long winnerId;
+    private List<Long> userIds = new ArrayList<>();
 
     public MatchDTO(Match match) throws ResourceNotFoundException {
         this.id = match.getId();

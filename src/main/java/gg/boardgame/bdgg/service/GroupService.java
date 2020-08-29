@@ -1,6 +1,7 @@
 package gg.boardgame.bdgg.service;
 
 import gg.boardgame.bdgg.db.Group;
+import gg.boardgame.bdgg.dto.MatchListDTO;
 import gg.boardgame.bdgg.exception.ResourceNotFoundException;
 import org.springframework.data.domain.Pageable;
 
@@ -11,7 +12,7 @@ import gg.boardgame.bdgg.dto.GroupDTO;
 import gg.boardgame.bdgg.dto.GroupListDTO;
 
 public interface GroupService {
-    List<Map.Entry<String, Long>> getMatchIds(long id, Pageable pageable) throws ResourceNotFoundException;
+    MatchListDTO getMatchList(long id, Pageable pageable) throws ResourceNotFoundException;
     GroupDTO createGroup(GroupDTO group, long leaderId);
     GroupListDTO getGroupList();
     GroupDTO updateGroup(GroupDTO group);

@@ -1,6 +1,7 @@
 package gg.boardgame.bdgg.service;
 
 import gg.boardgame.bdgg.db.*;
+import gg.boardgame.bdgg.dto.MatchListDTO;
 import gg.boardgame.bdgg.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -25,16 +26,14 @@ public class GroupServiceImpl implements GroupService{
     private MatchRepository matchRepository;
 
     @Override
-    public List<Map.Entry<String,Long>> getMatchIds(long id, Pageable pageable) throws ResourceNotFoundException {
-        List<Map.Entry<String, Long>> matchIds = new ArrayList<>();
+    public MatchListDTO getMatchList(long groupId, Pageable pageable) throws ResourceNotFoundException {
+        Group group = groupRepository.findById(groupId).orElseThrow(() -> new ResourceNotFoundException("group is not found for this group id:: " + id));
+        List<Match> matchList = group.getMatches();
 
-        Group group = groupRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("group is not found for this group id:: " + id));
+        MatchListDTO resMatchList = new MatchListDTO();
+        resMatchList.setItems(matchList);
 
-        group.getMatches().forEach((Match) -> {
-            matchIds.add(new AbstractMap.SimpleEntry<>("matchId", Match.getId()));
-        });
-
-        return matchIds;
+        return resMatchList;
     }
 
     @Override

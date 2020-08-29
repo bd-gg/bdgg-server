@@ -2,8 +2,10 @@ package gg.boardgame.bdgg.controller;
 
 import gg.boardgame.bdgg.dto.GroupDTO;
 import gg.boardgame.bdgg.dto.GroupListDTO;
+import gg.boardgame.bdgg.dto.MatchListDTO;
 import gg.boardgame.bdgg.exception.ResourceNotFoundException;
 import gg.boardgame.bdgg.service.GroupService;
+import gg.boardgame.bdgg.service.MatchService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -24,15 +26,15 @@ public class GroupController {
     private GroupService groupService;
 
     @GetMapping("/{groupId}/matches")
-    public ResponseEntity getMatchIds(@PathVariable("groupId") long groupId,
+    public ResponseEntity getMatchlist(@PathVariable("groupId") long groupId,
                                       Pageable pageable) throws ResourceNotFoundException {
-        log.info("getMatchIds is called");
+        log.info("getMatchList is called");
         log.info(String.format("groupId: %d", groupId));
 
         // call service
-        List<Map.Entry<String,Long>> matchIds = groupService.getMatchIds(groupId, pageable);
+        MatchListDTO resMatchList = groupService.getMatchList(groupId, pageable);
 
-        return new ResponseEntity<>(matchIds, HttpStatus.OK);
+        return new ResponseEntity<>(resMatchList, HttpStatus.OK);
     }
 
     @PostMapping()

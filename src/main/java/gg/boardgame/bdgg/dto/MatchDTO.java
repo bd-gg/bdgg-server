@@ -23,7 +23,7 @@ public class MatchDTO {
     private Long winnerId;
     private List<Long> userIds = new ArrayList<>();
 
-    public MatchDTO(Match match) throws ResourceNotFoundException {
+    public MatchDTO(Match match) {
         this.id = match.getId();
         this.gameId = match.getGameId();
         this.gameType = match.getGameType();

@@ -1,0 +1,602 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: APIs for BDGG
+  description: ''
+# Added by API Auto Mocking Plugin
+servers:
+# Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/jwkim1993/BDGG/1.0.0
+  - description: SwaggerHub API Auto Mocking
+    url: http://ec2-13-125-12-178.ap-northeast-2.compute.amazonaws.com:8080
+tags:
+  - name: users
+    description: 유저 관련 apis
+  - name: groups
+    description: 그룹 관련 apis
+  - name: matches
+    description: 매치 관련 apis
+  - name: etc
+    description: 그 외
+  
+paths:
+  /login:
+    post:
+      tags:
+        - etc
+      summary: "Login process"
+      description: ""
+      operationId: login
+      requestBody:
+        description: "로그인 계정 정보와 서비스 정보를 전달"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginInfo"
+      responses:
+        200:
+          description: "로그인 결과"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseOk'   # Reference to an object
+              example:
+                status: 200
+                token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1OTY0NDQzNzR9.aMWOVo11iluI3BKnnSyofTE9lNl2Pbqskcs85pNbMLk"
+                userId: 1
+        401:
+          description: "로그인 오류 & 실패"
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ResponseError'   # Reference to an object
+                example:
+                  status: 401
+                  message: "Incorrect email or password"
+        500:
+          description: "서버 오류"
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ResponseError'   # Reference to an object
+                example:
+                  status: 500
+                  message: "Internal Server Error"
+  /users/{username}:
+    get:
+      tags:
+        - users
+      summary: "Get user profile"
+      description: ""
+      operationId: login2
+      parameters:
+        - in: path
+          name: username   # Note the name is the same as in the path
+          required: true
+          schema:
+            type: string
+          examples:       # Multiple examples
+            zero:         # Distinct name
+              value: "TaehyunHwang"    # Example value
+              summary: A sample username  # Optional description
+          description: The username
+      responses:
+        200:
+          description: "앱 리스트 조회"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseOk'   # Reference to an object
+              example:
+                id: "1"
+                name: "Taehyun Hwang"
+                imageUrl: "http://sample.com"
+                mostPlayed:
+                - gameId: "1"
+                  count: 10
+                - gameId: "2"
+                  count: 100
+        401:
+          description: "인증 실패"
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ResponseError'   # Reference to an object
+                example:
+                  message: "Incorrect jwt token"
+        500:
+          description: "서버 오류"
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ResponseError'   # Reference to an object
+                example:
+                  message: "Internal Server Error"
+  /matches/{id}:
+    get:
+      tags:
+        - matches
+      summary: "Get Matches information"
+      description: ""
+      operationId: getMatchInfo
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+            example: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTk2NjA3MDg5LCJleHAiOjE2MjgxNDMwODl9.BXM2aFrglshUgEP0vB3bshWjsTpUHFm5T26wJX8Gi0s'
+        - in: path
+          name: id   # Note the name is the same as in the path
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          examples:       # Multiple examples
+            first:         # Distinct name
+              value: 1    # Example value
+              summary: A sample match id  # Optional description
+          description: The match id
+      responses:
+        200:
+          description: "매치 정보 조회"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Match'   # Reference to an object
+              example:
+                id: "1"
+                gameId: "1"
+                gameType: 1
+                result: "승리 or 성공 or 승자 이름"
+                winnerId: 1
+                playedTime: "2020/08/15/12:01"
+                place: "45, Jeongjail-ro, Bundang-gu, Seongnam-si, Gyeonggi-do, Republic of Korea"
+                users:
+                - userId: 1
+                - userId: 2
+                - userId: 3
+                - userId: 4
+        401:
+          description: "인증 실패"
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ResponseError'   # Reference to an object
+                example:
+                  message: "Incorrect jwt token"
+        500:
+          description: "서버 오류"
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ResponseError'   # Reference to an object
+                example:
+                  message: "Internal Server Error"
+  /groups:
+    post:
+      tags:
+        - groups
+      summary: 새 그룹 생성
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example: {
+                image: "http://image-url.com",
+                name: "sampleGroup",
+                place: "서울시 동작구",
+                members: [
+                  0,
+                  1,
+                  2
+                ]
+              }
+      responses:
+        '200':
+          description: 그룹 생성 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+    get:
+      tags:
+        - groups
+      summary: 그룹 리스트 조회
+      responses:
+        '200':
+          description: 그룹 리스트 조회 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupList'
+    put:
+      tags:
+        - groups
+      summary: 그룹 정보 수정
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example: {
+                image: 'http://other-image-url.com',
+                name: "sampleGroup 2",
+                place: "안양시 동안구"
+              }
+      responses:
+        '200':
+          description: 그룹 정보 수정 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+  /groups/{id}:
+    get:
+      tags:
+        - groups
+      summary: 그룹 정보 디테일 조회
+      parameters:
+      - in: "path"
+        name: id
+        description: 그룹 아이디
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: 그룹 디테일 정보 조회 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group' #should be fixed with detail schema
+  /groups/{id}/matches:
+    post:
+      tags:
+        - groups
+      summary: "Create Matches information"
+      description: ""
+      operationId: createMatch
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+            example: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTk2NjA3MDg5LCJleHAiOjE2MjgxNDMwODl9.BXM2aFrglshUgEP0vB3bshWjsTpUHFm5T26wJX8Gi0s'
+        - in: path
+          name: id   # Note the name is the same as in the path
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          examples:       # Multiple examples
+            first:         # Distinct name
+              value: 1    # Example value
+              summary: A sample match id  # Optional description
+          description: The match id
+      requestBody:
+        description: "매치 정보"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Match'
+            example:
+                gameId: "1"
+                gameType: 1
+                result: "승리 or 성공" #112
+                winnerId: 1
+                playedTime: "2020/08/15/12:01"
+                place: "45, Jeongjail-ro, Bundang-gu, Seongnam-si, Gyeonggi-do, Republic of Korea"
+                userScores:
+                - userId: 1
+                  score: 10
+                - userId: 2
+                  score: 20
+                - userId: 3
+                  score: 30
+                - userId: 4
+                  score: 70
+      responses:
+        200:
+          description: "매치 등록 성공"
+          content:
+            application/json:
+              example:
+                status: "Success"
+        401:
+          description: "인증 실패"
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ResponseError'   # Reference to an object
+                example:
+                  message: "Incorrect jwt token"
+        500:
+          description: "서버 오류"
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ResponseError'   # Reference to an object
+                example:
+                  message: "Internal Server Error"
+    get:
+      tags:
+        - groups
+      summary: "Get matches id list"
+      description: ""
+      operationId: getMatchIdList
+      security:
+        - BearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+            example: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTk2NjA3MDg5LCJleHAiOjE2MjgxNDMwODl9.BXM2aFrglshUgEP0vB3bshWjsTpUHFm5T26wJX8Gi0s'
+        - in: path
+          name: id   # Note the name is the same as in the path
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          examples:       # Multiple examples
+            first:         # Distinct name
+              value: 1    # Example value
+              summary: A sample group id  # Optional description
+          description: The group id
+      responses:
+        200:
+          description: "그룹안의 매치 리스트 정보 조회"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Match'   # Reference to an object
+              example:
+                items: 
+                - matchId: 1
+                  gameId: 1
+                  gameType: 0 #경쟁
+                  playedTime: "2020/08/15/12:01"
+                  result: "TaehyunHwang"
+                  winnerId: 1
+                - matchId: 2
+                  gameId: 2
+                  gaemType: 1 #협동
+                  playedTime: "2020/08/15/17:12"
+                  result: "성공"
+                  winnerId: -1
+        401:
+          description: "인증 실패"
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ResponseError'   # Reference to an object
+                example:
+                  message: "Incorrect jwt token"
+        500:
+          description: "서버 오류"
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ResponseError'   # Reference to an object
+                example:
+                  message: "Internal Server Error"
+  /users/{user-id}/groups:
+    get:
+      tags:
+        - users
+      summary: 특정 유저가 속한 그룹 리스트 조회
+      parameters:
+      - in: "path"
+        name: user-id
+        description: 유저 아이디
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: 그룹 리스트 조회 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupList'
+  /users/{user-id}/groups/{group-id}/join:
+    post:
+      tags:
+        - users
+      summary: 그룹 참여
+      parameters:
+      - in: "path"
+        name: user-id
+        description: 유저 아이디
+        required: true
+        schema:
+          type: integer
+      - in: "path"
+        name: group-id
+        description: 그룹 아이디
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: 그룹 참여 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+  /users/{user-id}/groups/{group-id}:
+    delete:
+      tags:
+        - users
+      summary: 그룹 탈퇴
+      parameters:
+      - in: "path"
+        name: user-id
+        description: 유저 아이디
+        required: true
+        schema:
+          type: integer
+      - in: "path"
+        name: group-id
+        description: 그룹 아이디
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: 그룹 탈퇴 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT    # optional, arbitrary value for documentation purposes
+  schemas:
+    Group:
+      type: object
+      description: 그룹 정보
+      properties:
+        id:
+          type: number
+        image:
+          type: string
+        name:
+          type: string
+        place:
+          type: string
+        totalPlayCount:
+          type: number
+        members:
+          type: array
+          items:
+            type: number
+        recentlyPlayedGames:
+          type: array
+          items:
+            properties:
+              gameId:
+                type: number
+              playedTime:
+                type: string
+                format: date-time
+    GroupList:
+      type: object
+      description: 그룹 리스트
+      properties:
+        itemss:
+          type: array
+          items:
+            $ref: '#/components/schemas/Group'
+    LoginInfo:
+      type: object
+      required:
+       - email
+       - password
+      properties:
+       email:
+         type: string
+         description: 이메일
+       password:
+         type: string
+         description: 비밀번호
+      example:
+         email: "hello@tmax.co.kr"
+         password: "123"
+    Profile:
+      type: object
+      required:
+       - title
+      properties:
+       title:
+         type: string
+         description: 앱 이름
+       id: 
+         type: integer
+         description: 유저 아이디
+       name: 
+         type: string
+         description: 유저 이름
+       imageUrl:
+         type: string
+         description: 프로필 이미지
+       mostPlayed:
+         type: array
+         items:
+           properties:
+             id: 
+               type: integer
+               description: 게임 아이디
+             count:
+               type: integer
+               description: 게임 횟수
+    Match:
+      type: object
+      required: 
+        - id
+      properties:
+        id:
+          type: integer
+          description: 매치 아이디
+        winnerId:
+          type: integer
+          description: 승자 아이디
+        gameId:
+          type: integer
+          description: 게임 아이디
+        playedTime:
+          type: string
+          format: date-time
+          description: 게임 종료 시간
+        place:
+          type: string
+          description: 게임 장소
+        gameType:
+          type: integer
+          enum: [1, 2, 3, 4]
+        result:
+          type: string
+          description: 경쟁이면 Match의 winnerId 존재, 협동이면 result값이 승리/실패   
+        userIdList:
+          type: array
+          items:
+           properties:
+             id: 
+               type: integer
+               description: 유저 아이디
+          description: 게임을 같이한 유저 아이디 리스트
+    MatchList:
+      type: object
+      description: 매치 리스트
+      properties:
+        itemss:
+          type: array
+          items:
+            $ref: '#/components/schemas/Match'
+    ResponseOk:
+      type: object
+      properties:
+        token:
+          type: string
+          description: json web token
+    ResponseError:
+      type: object
+      properties:
+        message:
+          type: string
+          description: 오류 사유

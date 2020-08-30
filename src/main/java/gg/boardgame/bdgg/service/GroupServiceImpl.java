@@ -27,8 +27,6 @@ public class GroupServiceImpl implements GroupService{
     private UserMatchRepository userMatchRepository;
     @Autowired
     private GroupMemberRepository groupMemberRepository;
-    @Autowired
-    private MatchRepository matchRepository;
 
     @Override
     public MatchListDTO getMatchList(long groupId, Pageable pageable) {

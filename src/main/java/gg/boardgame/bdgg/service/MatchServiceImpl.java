@@ -27,19 +27,17 @@ public class MatchServiceImpl implements MatchService{
     private UserMatchRepository userMatchRepository;
 
     @Override
-    public MatchDTO getMatch(long matchId, Pageable pageable) throws ResourceNotFoundException {
+    public MatchDTO.Response getMatch(long matchId, Pageable pageable) throws ResourceNotFoundException {
 
         Match match = matchRepository.findById(matchId).orElseThrow(() -> new ResourceNotFoundException("match is not found for this match id:: " + matchId));
-        MatchDTO matchDTO = new MatchDTO(match);
-
-        Page<UserMatch> userMatches = userMatchRepository.findByMatch_Id(matchId, pageable).orElseThrow(() -> new ResourceNotFoundException("user-match is not found for this match id:: " + matchId));;
-
+        /* get userIds */
         List<Long> userIds = new ArrayList<>();
-
-        userMatches.getContent().forEach(userMatch -> {
+        match.getUserMatches().forEach(userMatch -> {
             userIds.add(userMatch.getUser().getId());
         });
+        /* make MatchDTO Response */
+        MatchDTO.Response response = new MatchDTO.Response(new MatchDTO.Info(match), userIds);
 
-        return matchDTO;
+        return response;
     }
 }

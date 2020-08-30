@@ -6,6 +6,7 @@ import gg.boardgame.bdgg.service.MatchService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -19,14 +20,14 @@ public class MatchController {
     private MatchService matchService;
 
     @RequestMapping(path = "/{matchId}", method = RequestMethod.GET)
-    public ResponseEntity<MatchDTO> getMatch(@PathVariable("matchId") long matchId, Pageable pageable) throws ResourceNotFoundException {
+    public ResponseEntity getMatch(@PathVariable("matchId") long matchId, Pageable pageable) throws ResourceNotFoundException {
         log.info("getProfile is called");
         log.info(String.format("matchId: %d", matchId));
 
-        MatchDTO match = matchService.getMatch(matchId, pageable);
-
         // call service
-        return ResponseEntity.ok(match);
+        MatchDTO.Response response = matchService.getMatch(matchId, pageable);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }

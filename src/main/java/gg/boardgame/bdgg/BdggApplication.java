@@ -98,12 +98,12 @@ public class BdggApplication implements CommandLineRunner {
 
 		matchRepository.save(macthTwo);
 
-		UserMatch userMatchOne = UserMatch.builder().id(1).score(80).build();
+		UserMatch userMatchOne = UserMatch.builder().score(80L).build();
 		userMatchOne.changeUser(taehyun);
 		userMatchOne.changeMatch(macthOne);
 		userMatchRepository.save(userMatchOne);
 
-		UserMatch userMatchTwo = UserMatch.builder().id(2).score(90).build();
+		UserMatch userMatchTwo = UserMatch.builder().score(90L).build();
 		userMatchTwo.changeUser(jaewon);
 		userMatchTwo.changeMatch(macthOne);
 		userMatchRepository.save(userMatchTwo);

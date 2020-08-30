@@ -2,6 +2,7 @@ package gg.boardgame.bdgg.controller;
 
 import gg.boardgame.bdgg.dto.GroupDTO;
 import gg.boardgame.bdgg.dto.GroupListDTO;
+import gg.boardgame.bdgg.dto.MatchDTO;
 import gg.boardgame.bdgg.dto.MatchListDTO;
 import gg.boardgame.bdgg.exception.ResourceNotFoundException;
 import gg.boardgame.bdgg.service.GroupService;
@@ -32,9 +33,21 @@ public class GroupController {
         log.info(String.format("groupId: %d", groupId));
 
         // call service
-        MatchListDTO resMatchList = groupService.getMatchList(groupId, pageable);
+        MatchListDTO response = groupService.getMatchList(groupId, pageable);
 
-        return new ResponseEntity<>(resMatchList, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping("/{groupId}/matches")
+    public ResponseEntity createMatch(@PathVariable("groupId") long groupId, @RequestBody MatchDTO.Request match,
+                                       Pageable pageable) throws ResourceNotFoundException {
+        log.info("createMatch is called");
+        log.info(String.format("groupId: %d", groupId));
+
+        // call service
+        MatchDTO.Request response = groupService.createMatch(match, groupId);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping()

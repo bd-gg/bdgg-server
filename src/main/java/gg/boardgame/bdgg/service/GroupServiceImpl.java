@@ -1,6 +1,7 @@
 package gg.boardgame.bdgg.service;
 
 import gg.boardgame.bdgg.db.*;
+import gg.boardgame.bdgg.dto.MatchDTO;
 import gg.boardgame.bdgg.dto.MatchListDTO;
 import gg.boardgame.bdgg.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class GroupServiceImpl implements GroupService{
     private MatchRepository matchRepository;
 
     @Override
-    public MatchListDTO getMatchList(long groupId, Pageable pageable) throws ResourceNotFoundException {
+    public MatchListDTO getMatchList(long groupId, Pageable pageable) {
         Group group = groupRepository.findById(groupId).orElseThrow(() -> new ResourceNotFoundException("group is not found for this group id:: " + id));
         List<Match> matchList = group.getMatches();
 

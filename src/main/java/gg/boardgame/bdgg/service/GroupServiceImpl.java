@@ -6,16 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import gg.boardgame.bdgg.dto.GroupDTO;
 import gg.boardgame.bdgg.dto.GroupListDTO;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.NoSuchElementException;
 
 @Slf4j
 @Service
@@ -26,6 +21,8 @@ public class GroupServiceImpl implements GroupService{
     private UserRepository userRepository;
     @Autowired
     private GroupMemberRepository groupMemberRepository;
+    @Autowired
+    private MatchRepository matchRepository;
 
     @Override
     public List<Map.Entry<String,Long>> getMatchIds(long id, Pageable pageable) throws ResourceNotFoundException {
@@ -65,8 +62,8 @@ public class GroupServiceImpl implements GroupService{
         List<GroupMember> gmList = new ArrayList<>();
         users.stream().forEach(x -> {
             GroupMember gm = new GroupMember();
-            gm.setGroup(groupDO);
-            gm.setUser(x);
+            gm.changeGroup(groupDO);
+            gm.changeUser(x);
             gmList.add(gm);
         });
         groupMemberRepository.saveAll(gmList);
@@ -81,7 +78,11 @@ public class GroupServiceImpl implements GroupService{
         List<Group> groupList = groupRepository.findAll();
 
         GroupListDTO resGroupList = new GroupListDTO();
-        resGroupList.setItems(groupList);
+        List<GroupDTO> items = new ArrayList<>();
+
+        // set groupDTO list
+        groupList.stream().forEach(g -> items.add(createGroupDtoFromGroup(g)));
+        resGroupList.setItems(items);
 
         return resGroupList;
     }
@@ -109,5 +110,18 @@ public class GroupServiceImpl implements GroupService{
             group.setGroupName(groupDTO.getName());
         if(groupDTO.getPlace() != null)
             group.setGroupPlace(groupDTO.getPlace());
+    }
+
+    public GroupDTO createGroupDtoFromGroup(Group g) {
+        // find recently played games(up to 3)
+        List<Match> rpgList = matchRepository.findTop3ByGroupId(g.getId()).orElseGet(() -> Collections.EMPTY_LIST);
+
+        // create return groupDTO
+        GroupDTO groupDTO = new GroupDTO();
+        groupDTO.copyFromGroupDO(g);
+        groupDTO.setTotalPlayCount(matchRepository.countByGroupId(g.getId()));
+        groupDTO.setRecentlyPlayedGames(rpgList);
+
+        return groupDTO;
     }
 }

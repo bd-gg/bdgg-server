@@ -1,29 +1,27 @@
 package gg.boardgame.bdgg.dto;
 
 import gg.boardgame.bdgg.db.Group;
+import gg.boardgame.bdgg.db.Match;
 import io.jsonwebtoken.lang.Assert;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class GroupDTO {
     private Long id;
     private String image;
     private String name;
     private String place;
+    private Long totalPlayCount;
     private List<Long> members;
-
-    public GroupDTO() {}
-
-    public GroupDTO(Long id, String image, String name, String place, List<Long> members) {
-        this.id = id;
-        this.image = image;
-        this.name = name;
-        this.place = place;
-        this.members = members;
-    }
+    private List<RecentlyPlayedGame> recentlyPlayedGames;
 
     public void copyFromGroupDO(Group g) {
         this.id = g.getId();
@@ -33,5 +31,18 @@ public class GroupDTO {
 
         members = new ArrayList<>();
         g.getGroupMembers().stream().forEach(x -> members.add(x.getId()));
+    }
+
+    public void setRecentlyPlayedGames(List<Match> rpgList) {
+        for(Match rpg: rpgList) {
+            recentlyPlayedGames.add(new RecentlyPlayedGame(rpg.getGameId(), rpg.getPlayedTime()));
+        }
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class RecentlyPlayedGame {
+        private long gameId;
+        private Date playedTime;
     }
 }

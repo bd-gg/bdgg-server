@@ -64,6 +64,33 @@ paths:
                 example:
                   status: 500
                   message: "Internal Server Error"
+  
+  /users:
+    get:
+      tags:
+        - users
+      summary: "Get userList by username with like keyword"
+      parameters: 
+        - in: query
+          name: username
+          required: false
+          description: "if exists, its length must be over 2. it's case insensitive"
+          schema:
+            type: string
+          example:
+            Tae
+      responses:
+        200:
+          description: "유저 리스트 조회 성공"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserList'
+              example:
+                items:
+                  id: "1"
+                  name: "Taehyun Hwang"
+                  imageUrl: "http://sample.com"
   /users/{username}:
     get:
       tags:
@@ -518,14 +545,30 @@ components:
       example:
          email: "hello@tmax.co.kr"
          password: "123"
+    User:
+      type: object
+      properties:
+       id: 
+         type: integer
+         description: 유저 아이디
+       name: 
+         type: string
+         description: 유저 이름
+       imageUrl:
+         type: string
+         description: 프로필 이미지
+    UserList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
     Profile:
       type: object
       required:
        - title
       properties:
-       title:
-         type: string
-         description: 앱 이름
        id: 
          type: integer
          description: 유저 아이디

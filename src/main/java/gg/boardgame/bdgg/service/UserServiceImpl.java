@@ -1,10 +1,7 @@
 package gg.boardgame.bdgg.service;
 
 import gg.boardgame.bdgg.db.*;
-import gg.boardgame.bdgg.dto.GameHistoryDTO;
-import gg.boardgame.bdgg.dto.GroupDTO;
-import gg.boardgame.bdgg.dto.GroupListDTO;
-import gg.boardgame.bdgg.dto.ProfileDTO;
+import gg.boardgame.bdgg.dto.*;
 import gg.boardgame.bdgg.exception.ResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +23,18 @@ public class UserServiceImpl implements UserService {
     private UserGameHistoryRepository userGameHistoryRepository;
     @Autowired
     private GroupMemberRepository groupMemberRepository;
+
+    @Override
+    public UserListDTO getUsers(String userName) {
+        List<User> users;
+
+        if(userName == null)
+            users = userRepository.findAll();
+        else
+            users = userRepository.findByNameContainsIgnoreCase(userName).orElseGet(() -> Collections.EMPTY_LIST);
+
+        return new UserListDTO(users);
+    }
 
     @Override
     public ProfileDTO getProfile(String userName, Pageable pageable) throws ResourceNotFoundException {

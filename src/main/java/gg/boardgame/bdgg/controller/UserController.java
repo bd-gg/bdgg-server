@@ -1,8 +1,6 @@
 package gg.boardgame.bdgg.controller;
 
-import gg.boardgame.bdgg.dto.GroupDTO;
-import gg.boardgame.bdgg.dto.GroupListDTO;
-import gg.boardgame.bdgg.dto.ProfileDTO;
+import gg.boardgame.bdgg.dto.*;
 import gg.boardgame.bdgg.exception.ResourceNotFoundException;
 import gg.boardgame.bdgg.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +17,16 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @GetMapping()
+    public ResponseEntity getUsers(@RequestParam(value = "username", required = false) String userName) {
+        // if length of the userName is not over 2, return error
+        if(userName != null && userName.length() < 3)
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+
+        UserListDTO users = userService.getUsers(userName);
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
 
     @GetMapping("/{userName}")
     public ResponseEntity getProfile(@PathVariable("userName") String userName, Pageable pageable) throws ResourceNotFoundException {

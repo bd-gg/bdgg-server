@@ -19,7 +19,7 @@ tags:
     description: 매치 관련 apis
   - name: etc
     description: 그 외
-  
+
 paths:
   /login:
     post:
@@ -64,13 +64,13 @@ paths:
                 example:
                   status: 500
                   message: "Internal Server Error"
-  
+
   /users:
     get:
       tags:
         - users
       summary: "Get userList by username with like keyword"
-      parameters: 
+      parameters:
         - in: query
           name: username
           required: false
@@ -292,7 +292,7 @@ paths:
       parameters:
         - in: header
           name: Authorization
-          required: true
+          required: false
           schema:
             type: string
             example: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTk2NjA3MDg5LCJleHAiOjE2MjgxNDMwODl9.BXM2aFrglshUgEP0vB3bshWjsTpUHFm5T26wJX8Gi0s'
@@ -305,8 +305,8 @@ paths:
           examples:       # Multiple examples
             first:         # Distinct name
               value: 1    # Example value
-              summary: A sample match id  # Optional description
-          description: The match id
+              summary: A sample group id  # Optional description
+          description: The group id
       requestBody:
         description: "매치 정보"
         required: true
@@ -319,17 +319,13 @@ paths:
                 gameType: 1
                 result: "승리 or 성공" #112
                 winnerId: 1
-                playedTime: "2020/08/15/12:01"
+                playedTime: "2020-09-06 20:35:05.395"
                 place: "45, Jeongjail-ro, Bundang-gu, Seongnam-si, Gyeonggi-do, Republic of Korea"
                 userScores:
                 - userId: 1
                   score: 10
                 - userId: 2
                   score: 20
-                - userId: 3
-                  score: 30
-                - userId: 4
-                  score: 70
       responses:
         200:
           description: "매치 등록 성공"
@@ -387,11 +383,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/Match'   # Reference to an object
               example:
-                items: 
+                items:
                 - matchId: 1
                   gameId: 1
                   gameType: 0 #경쟁
-                  playedTime: "2020/08/15/12:01"
+                  playedTime: "2020-09-06T20:35:05.395Z"
                   result: "TaehyunHwang"
                   winnerId: 1
                 - matchId: 2
@@ -548,10 +544,10 @@ components:
     User:
       type: object
       properties:
-       id: 
+       id:
          type: integer
          description: 유저 아이디
-       name: 
+       name:
          type: string
          description: 유저 이름
        imageUrl:
@@ -569,10 +565,10 @@ components:
       required:
        - title
       properties:
-       id: 
+       id:
          type: integer
          description: 유저 아이디
-       name: 
+       name:
          type: string
          description: 유저 이름
        imageUrl:
@@ -582,7 +578,7 @@ components:
          type: array
          items:
            properties:
-             id: 
+             id:
                type: integer
                description: 게임 아이디
              count:
@@ -590,7 +586,7 @@ components:
                description: 게임 횟수
     Match:
       type: object
-      required: 
+      required:
         - id
       properties:
         id:
@@ -614,12 +610,12 @@ components:
           enum: [1, 2, 3, 4]
         result:
           type: string
-          description: 경쟁이면 Match의 winnerId 존재, 협동이면 result값이 승리/실패   
+          description: 경쟁이면 Match의 winnerId 존재, 협동이면 result값이 승리/실패
         userIdList:
           type: array
           items:
            properties:
-             id: 
+             id:
                type: integer
                description: 유저 아이디
           description: 게임을 같이한 유저 아이디 리스트

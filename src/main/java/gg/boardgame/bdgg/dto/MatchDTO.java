@@ -16,9 +16,6 @@ import java.util.Map;
 @Data
 public class MatchDTO {
 
-    public MatchDTO(Match match) {
-    }
-
     @Getter
     @AllArgsConstructor
     @Builder

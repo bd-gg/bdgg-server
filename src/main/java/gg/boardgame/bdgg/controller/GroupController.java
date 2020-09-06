@@ -39,8 +39,7 @@ public class GroupController {
     }
 
     @PostMapping("/{groupId}/matches")
-    public ResponseEntity createMatch(@PathVariable("groupId") long groupId, @RequestBody MatchDTO.Request match,
-                                       Pageable pageable) throws ResourceNotFoundException {
+    public ResponseEntity createMatch(@PathVariable("groupId") long groupId, @RequestBody MatchDTO.Request match) throws ResourceNotFoundException {
         log.info("createMatch is called");
         log.info(String.format("groupId: %d", groupId));
 

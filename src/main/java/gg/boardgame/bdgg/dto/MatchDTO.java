@@ -1,5 +1,6 @@
 package gg.boardgame.bdgg.dto;
 
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import gg.boardgame.bdgg.db.*;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
@@ -55,6 +56,7 @@ public class MatchDTO {
     @Getter
     @AllArgsConstructor
     public static class Response {
+        @JsonUnwrapped
         private Info info;
         private List<Long> userIds = new ArrayList<>();
 

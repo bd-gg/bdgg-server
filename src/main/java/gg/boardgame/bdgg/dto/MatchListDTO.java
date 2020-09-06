@@ -14,12 +14,18 @@ import java.util.Map;
 @Slf4j
 @Data
 public class MatchListDTO {
-    private List<MatchDTO> items = new ArrayList<>();
+    private List<MatchDTO.Response> items = new ArrayList<>();
 
     public void setItems(List<Match> matchList) {
         for(Match match : matchList) {
-            MatchDTO mdto = new MatchDTO(match);
-            items.add(mdto);
+            /* get userIds */
+            List<Long> userIds = new ArrayList<>();
+            match.getUserMatches().forEach(userMatch -> {
+                userIds.add(userMatch.getUser().getId());
+            });
+            /* make MatchDTO Response */
+            MatchDTO.Response response = new MatchDTO.Response(new MatchDTO.Info(match), userIds);
+            items.add(response);
         }
     }
 }

@@ -43,6 +43,8 @@ public class GroupServiceImpl implements GroupService{
     public MatchDTO.Request createMatch(MatchDTO.Request matchReqDTO, Long groupId) {
         /* no need to check if it already exist
          *  because, match doesn't have unique properties */
+        log.info(String.format("Place: %s",matchReqDTO.getPlace()));
+        log.info(String.format("gameType: %d",matchReqDTO.getGameType()));
         Match match = Match.builder()
                 .gameId(matchReqDTO.getGameId())
                 .gameType(matchReqDTO.getGameType())
@@ -59,8 +61,8 @@ public class GroupServiceImpl implements GroupService{
 
         /* set UserMatch */
         matchReqDTO.getUserScores().forEach(userScore -> {
-            UserMatch userMatch = UserMatch.builder().score(userScore.getSecond()).build();
-            User user = userRepository.findById(userScore.getFirst()).orElseThrow(() -> new ResourceNotFoundException("group is not found for this group id:: " + userScore.getFirst()));
+            UserMatch userMatch = UserMatch.builder().score(userScore.get("score")).build();
+            User user = userRepository.findById(userScore.get("userId")).orElseThrow(() -> new ResourceNotFoundException("user is not found for this user id:: " + userScore.get("userId")));
             userMatch.changeUser(user);
             userMatch.changeMatch(match);
             userMatchRepository.save(userMatch);

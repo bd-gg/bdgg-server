@@ -1,5 +1,6 @@
 package gg.boardgame.bdgg.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import gg.boardgame.bdgg.db.*;
 import lombok.*;
@@ -9,6 +10,7 @@ import org.springframework.data.util.Pair;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Data
@@ -46,11 +48,12 @@ public class MatchDTO {
     public static class Request {
         private Long gameId;
         private Integer gameType;
+        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
         private Timestamp playedTime;
         private String place;
         private String result;
         private Long winnerId;
-        private List<Pair<Long,Long>> userScores = new ArrayList<>();
+        private List<Map<String,Long>> userScores = new ArrayList<>();
     }
 
     @Getter

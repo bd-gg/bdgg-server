@@ -4,11 +4,16 @@ plugins {
 	id 'java'
 	id 'war'
 	id 'org.hidetake.ssh' version '2.10.1'
+	id 'java-library'
+}
+
+java {
+	sourceCompatibility = JavaVersion.VERSION_1_9
+	targetCompatibility = JavaVersion.VERSION_1_9
 }
 
 group = 'gg.boardgame'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
 
 bootWar {
 	archiveBaseName="bdgg"
@@ -76,4 +81,10 @@ task deployWar(dependsOn: bootWar){
 
 test {
 	useJUnitPlatform()
+}
+
+gradle.projectsEvaluated {
+	tasks.withType(JavaCompile) {
+		options.compilerArgs << "-Xlint:unchecked"
+	}
 }

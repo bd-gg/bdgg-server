@@ -25,7 +25,7 @@ public class MatchController {
         log.info(String.format("matchId: %d", matchId));
 
         // call service
-        MatchDTO.Response response = matchService.getMatch(matchId, pageable);
+        MatchDTO.Response response = matchService.getMatch(matchId);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class IndividualGameResultDTO {
-    private long userId;
+    private Long userId;
     private String name;
-    private int result;
+    private Long result;
 }

@@ -15,7 +15,7 @@ public class UserMatch {
     private Long id;
 
     @Column(name = "score")
-    private int score;
+    private Long score;
 
     @ManyToOne
     @JoinColumn(name = "user_id") //child 에 지정되어 있는 FK user_id 기준으로 user 조회
@@ -26,10 +26,8 @@ public class UserMatch {
     private Match match;
 
     @Builder
-    public UserMatch(long id, int score) {
-        Assert.notNull(id, "id must be not null");
+    public UserMatch(Long score) {
         Assert.notNull(score, "score must be not null");
-        this.id = id;
         this.score = score;
     }
 

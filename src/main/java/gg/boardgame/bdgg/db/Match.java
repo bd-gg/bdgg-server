@@ -18,7 +18,7 @@ public class Match {
     private long id;
 
     @Column(name="game_id")
-    private int gameId;
+    private long gameId;
     @Column(name="game_type")
     private int gameType;
     @Column(name="played_time")
@@ -38,13 +38,11 @@ public class Match {
     private List<UserMatch> userMatches = new ArrayList<>();
 
     @Builder
-    public Match(long id, int gameId, int gameType, Timestamp playedTime, String place) {
-        Assert.notNull(id, "id must be not null");
+    public Match(long id, long gameId, int gameType, Timestamp playedTime, String place) {
         Assert.notNull(gameId, "gameId must be not null");
         Assert.notNull(gameType, "gameType must be not null");
         Assert.notNull(playedTime, "playedTime must be not null");
         Assert.notNull(place, "place must be not null");
-        this.id = id;
         this.gameId = gameId;
         this.gameType = gameType;
         this.playedTime = playedTime;
@@ -55,5 +53,4 @@ public class Match {
         this.group = group;
         this.group.getMatches().add(this);
     }
-
 }

@@ -19,7 +19,7 @@ public class UserGameHistory {
     private User user;
 
     @Column(name = "game_id")
-    private int gameId;
+    private long gameId;
 
     @Column(name = "count")
     private int count;

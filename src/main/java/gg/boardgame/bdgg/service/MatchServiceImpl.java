@@ -27,34 +27,17 @@ public class MatchServiceImpl implements MatchService{
     private UserMatchRepository userMatchRepository;
 
     @Override
-    public MatchDTO getMatch(long matchId, Pageable pageable) throws ResourceNotFoundException {
+    public MatchDTO.Response getMatch(long matchId) throws ResourceNotFoundException {
 
         Match match = matchRepository.findById(matchId).orElseThrow(() -> new ResourceNotFoundException("match is not found for this match id:: " + matchId));
-
-        MatchDTO matchDTO = new MatchDTO(match);
-
-        long winnerId = match.getWinnerId();
-        log.info("winnerId: "+ winnerId);
-        /* 경쟁 게임이 아닌 협동 게임일 경우, 임의의 winner 객체 생성 */
-        User winner = userRepository.findById(winnerId).orElseGet(() -> new User("no","no","no","no","no","no"));
-        matchDTO.setWinnerUserName(winner.getName());
-
-        /* get userIds & winnerScore */
-        match.getUserMatches().forEach(userMatch -> {
-            matchDTO.getUserIds().add(new AbstractMap.SimpleEntry<>("userId",userMatch.getUser().getId()));
-            if (userMatch.getUser().equals(winner)) {
-                matchDTO.setWinnerScore(userMatch.getScore());
-            }
-        });
-
-        Page<UserMatch> userMatches = userMatchRepository.findByMatch_Id(matchId, pageable).orElseThrow(() -> new ResourceNotFoundException("user-match is not found for this match id:: " + matchId));;
-
+        /* get userIds */
         List<Long> userIds = new ArrayList<>();
-
-        userMatches.getContent().forEach(userMatch -> {
+        match.getUserMatches().forEach(userMatch -> {
             userIds.add(userMatch.getUser().getId());
         });
+        /* make MatchDTO Response */
+        MatchDTO.Response response = new MatchDTO.Response(new MatchDTO.Info(match), userIds);
 
-        return matchDTO;
+        return response;
     }
 }

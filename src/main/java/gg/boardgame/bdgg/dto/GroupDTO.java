@@ -20,8 +20,8 @@ public class GroupDTO {
     private String name;
     private String place;
     private Long totalPlayCount;
-    private List<Long> members;
-    private List<RecentlyPlayedGame> recentlyPlayedGames;
+    private List<Long> members = new ArrayList<>();
+    private List<RecentlyPlayedGame> recentlyPlayedGames = new ArrayList<>();
 
     public void copyFromGroupDO(Group g) {
         this.id = g.getId();

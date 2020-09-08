@@ -90,8 +90,8 @@ public class GroupServiceImpl implements GroupService{
         Group groupDO = Group.builder()
                 .groupName(group.getName())
                 .groupImage(group.getImage())
+                .groupPlace(group.getPlace())
                 .groupLeader(leaderId) // it should be driven from user token
-                .groupEnterPassword(null)
                 .build();
 
         groupRepository.save(groupDO);

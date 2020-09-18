@@ -1,8 +1,7 @@
 package gg.boardgame.bdgg.service;
 
 import gg.boardgame.bdgg.db.*;
-import gg.boardgame.bdgg.dto.MatchDTO;
-import gg.boardgame.bdgg.dto.MatchListDTO;
+import gg.boardgame.bdgg.dto.*;
 import gg.boardgame.bdgg.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -10,8 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
-import gg.boardgame.bdgg.dto.GroupDTO;
-import gg.boardgame.bdgg.dto.GroupListDTO;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -162,5 +159,18 @@ public class GroupServiceImpl implements GroupService{
         groupDTO.setRecentlyPlayedGames(rpgList);
 
         return groupDTO;
+    }
+
+    @Override
+    public UserListDTO getGroupMemberList(long id) {
+        List<GroupMember> groupMembers = groupMemberRepository.findByGroup_Id(id).orElseThrow(
+                () -> new ResourceNotFoundException("group not found"));
+
+        List<UserDTO> userList = new ArrayList<>();
+        groupMembers.forEach(x -> userList.add(new UserDTO(x.getUser())));
+        UserListDTO retDTO = new UserListDTO();
+
+        retDTO.setItems(userList);
+        return retDTO;
     }
 }

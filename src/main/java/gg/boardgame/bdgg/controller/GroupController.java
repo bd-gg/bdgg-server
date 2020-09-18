@@ -1,12 +1,8 @@
 package gg.boardgame.bdgg.controller;
 
-import gg.boardgame.bdgg.dto.GroupDTO;
-import gg.boardgame.bdgg.dto.GroupListDTO;
-import gg.boardgame.bdgg.dto.MatchDTO;
-import gg.boardgame.bdgg.dto.MatchListDTO;
+import gg.boardgame.bdgg.dto.*;
 import gg.boardgame.bdgg.exception.ResourceNotFoundException;
 import gg.boardgame.bdgg.service.GroupService;
-import gg.boardgame.bdgg.service.MatchService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -14,8 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Map;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -79,10 +73,11 @@ public class GroupController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getGroupById() {
+    public ResponseEntity getGroupById(@PathVariable("id") long id) {
         // verify token
+        UserListDTO userList = groupService.getGroupMemberList(id);
 
-        return null;
+        return new ResponseEntity<>(userList, HttpStatus.OK);
     }
 
     @PutMapping()
